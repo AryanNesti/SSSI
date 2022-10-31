@@ -30,3 +30,6 @@ get_ipython().system_raw('./ngrok http 5000 &')
 5. Here I add NNI using the method in step 4 and then run `nni hello` this will download the `nni_hello_hpo` and send a command message stating `Please run "python nni_hello_hpo/main.py" to try it out.`
 6. Finally you run that line and you will be prompted to two local links and those will be your NNI's Web UI
 
+
+<img width="1440" alt="Screen Shot 2022-10-30 at 8 53 21 PM" src="https://user-images.githubusercontent.com/98928740/198919791-02c04236-58b2-4321-8c5e-f48bd2257e6f.png">
+
