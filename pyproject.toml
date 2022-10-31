@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "sssi"
+version = "0.1.0"
+description = ""
+authors = ["AryanNesti <aryannesti60@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.11"
+pandas = "^1.5.1"
+patchify = "^0.2.3"
+opencv-python = "^4.6.0.66"
+segmentation-models = "^1.0.1"
+tensorflow = "^2.10.0"
+keras = "^2.10.0"
+matplotlib = "^3.6.1"
+sklearn = "^0.0"
+nni = "^2.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
