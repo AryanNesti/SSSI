@@ -35,4 +35,4 @@ For this project we are using Unet which is a convolutional neural network meani
 
 ![Figure_1](https://user-images.githubusercontent.com/98928740/200205279-83f298a4-5592-41a7-91c8-15774bfcbc52.png)
 ![Figure_2](https://user-images.githubusercontent.com/98928740/200205260-f1abc72a-ac6a-4091-a582-97a38e67fd38.png)
-`More can be viewed in docs/baseline-performance.md[https://github.com/AryanNesti/SSSI/blob/milestone-2/docs/baseline-performance.md]
+`More can be viewed in docs/baseline-performance.md[https://github.com/AryanNesti/SSSI/blob/milestone-2/docs/baseline-performance.md]`
