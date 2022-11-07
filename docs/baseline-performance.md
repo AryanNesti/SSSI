@@ -66,9 +66,12 @@ history2=model_resnet_backbone.fit(X_train_prepr,
 ###### Training and Validation Loss vs Epoch
 <!-- Image here -->
 ![Training and Validation loss](https://user-images.githubusercontent.com/98928740/200205031-f9d81a09-2a19-4009-9659-96467b574151.png)
+A high loss value usually means the model is producing erroneous output, while a low loss value indicates that there are fewer errors in the model. In addition, the loss is usually calculated using a cost function, which measures the error in different ways. The cost function chosen is usually dependent on the problem being solved and the data being used.
+
 ###### Training and Validation Percision vs Recall
 <!-- Image here -->
 ![Percision and Recall](https://user-images.githubusercontent.com/98928740/200205196-ef73273e-bc40-4df3-87ca-b2cb506f9920.png)
+This is the Percision vs Recall curve which shows that my code is working well since the curve is reasonable. Higher precision means that an algorithm returns more relevant results than irrelevant ones, and high recall means that an algorithm returns most of the relevant results. 
 
 ###### Comparisons from the predictions to the labels and the actual image
 ![Figure_5](https://user-images.githubusercontent.com/98928740/200224414-6db2c7e0-22c2-4b90-bfb5-b53b243cb1a7.png)
