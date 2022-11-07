@@ -31,8 +31,9 @@ get_ipython().system_raw('./ngrok http 5000 &')
 
 ## Milestone 2 
 For this project we are using Unet which is a convolutional neural network meaning it is applied to visual images. In this case we will apply Unet to satelite imagery that were taken of several different locations ranging from cities to deserts and oceans. On the left is the image taken and the image on the right is the effect of Unet. 
+`More can be viewed in docs/baseline-performance.md`
 <!-- Image here -->
 
 ![Figure_1](https://user-images.githubusercontent.com/98928740/200205279-83f298a4-5592-41a7-91c8-15774bfcbc52.png)
 ![Figure_2](https://user-images.githubusercontent.com/98928740/200205260-f1abc72a-ac6a-4091-a582-97a38e67fd38.png)
-`More can be viewed in docs/baseline-performance.md[https://github.com/AryanNesti/SSSI/blob/milestone-2/docs/baseline-performance.md]`
+
