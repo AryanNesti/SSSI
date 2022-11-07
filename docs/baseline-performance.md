@@ -1,15 +1,19 @@
 # Milestone 2
-For this project we are using Unet which is a convolutional neural network meaning it is applied to visual images. In this case we will apply Unet to satelite imagery that were taken of several different locations ranging from cities to deserts and oceans. On the left is the image taken and the image on the right is the effect of Unet. 
+For this project we are using Unet which is a convolutional neural network meaning it is applied to visual images. We trained a network in a sliding-window setup to predict the class label of each pixel by providing a local region (patch) around that pixel. However, there are two drawbacks to this process it is quite slow because the network must be run separately for each patch, and there is a lot of redundancy due to overlapping patches. This can be seen abunudantly when running the file as when running with 100 epochs it would take around 3 mins per epoch for the first model and 6 mins for the second model and that is why I was put in a position to change it to 10 epochs. Secondly, there is a trade-off between localization accuracy and the use of context. This can be seen in some of the images that when they aren't very precise around buidlings and plants becuase it just becomes either a big smudge or nonexistent. 
 <!-- Image here -->
 
-![](https://...Dark.png)  |  ![](https://...Ocean.png)
+Overlap-tile strategy for seamless segmentation of arbitrary large images. Prediction of the segmentation in the yellow area, requires image data within the blue area as input. Missing input data is extrapolated by mirroring
+<!-- Image here -->
+
+
+
 ![Figure_1](https://user-images.githubusercontent.com/98928740/200205279-83f298a4-5592-41a7-91c8-15774bfcbc52.png)
 ![Figure_2](https://user-images.githubusercontent.com/98928740/200205260-f1abc72a-ac6a-4091-a582-97a38e67fd38.png)
 ```
 Building: #3C1098
 Land (unpaved area): #8429F6
 Road: #6EC1E4
-Vegetation: #FEDD3A
+Vegetation: #FEDD3Ape
 Water: #E2A929
 Unlabeled: #9B9B9B
 ```
@@ -64,4 +68,4 @@ history2=model_resnet_backbone.fit(X_train_prepr,
 
 
 <!-- Images here -->
-From the few images displayed above and the other images within the folder you can deduce that the model does a decent job predicting. From the `training and validation loss at each epoch` image, at times, the validation loss is greater than the training loss. This may indicate that the model is underfitting. Underfitting occurs when the model is unable to accurately model the training data, and which in turn generates errors. The `training and validation IoU at each epoch` shows the intersection over Union - "a metric used to evaluate Deep Learning algorithms by estimating how well a predicted mask or bounding box matches the ground truth data". This is not bad with the ammount of epochs used and with more eppochs possible get a better prediction at the cost of the run time however. 
+From the few images displayed above and the other images within the folder you can deduce that the model does a decent job predicting. From the `training and validation loss at each epoch` image, at times, the validation loss is greater than the training loss. This may indicate that the model is underfitting. Underfitting occurs when the model is unable to accurately model the training data, and which in turn generates errors. The `training and validation IoU at each epoch` shows the intersection over Union - "a metric used to evaluate Deep Learning algorithms by estimating how well a predicted mask or bounding box matches the ground truth data". Precision can be seen as a measure of quality, and recall as a measure of quantity. Higher precision means that an algorithm returns more relevant results than irrelevant ones, and high recall means that an algorithm returns most of the relevant results. The `Training and Validation Percision vs Recall` shows that the model is pretty reasonable with such a smooth curve and at 0.6 recall the percision making it close ot perfect however it starts declining after making it less reliable. This is not bad with the ammount of epochs used and with more eppochs possible get a better prediction at the cost of the run time however. 
