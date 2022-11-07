@@ -1,6 +1,10 @@
 # Milestone 2
 For this project we are using Unet which is a convolutional neural network meaning it is applied to visual images. In this case we will apply Unet to satelite imagery that were taken of several different locations ranging from cities to deserts and oceans. On the left is the image taken and the image on the right is the effect of Unet. 
 <!-- Image here -->
+
+![](https://...Dark.png)  |  ![](https://...Ocean.png)
+![Figure_1](https://user-images.githubusercontent.com/98928740/200205279-83f298a4-5592-41a7-91c8-15774bfcbc52.png)
+![Figure_2](https://user-images.githubusercontent.com/98928740/200205260-f1abc72a-ac6a-4091-a582-97a38e67fd38.png)
 ```
 Building: #3C1098
 Land (unpaved area): #8429F6
@@ -49,8 +53,15 @@ history2=model_resnet_backbone.fit(X_train_prepr,
 ```
 ###### Training and Validation IoU vs Epoch
 <!-- Image here -->
+![Training and validation IoU](https://user-images.githubusercontent.com/98928740/200205020-c3899c45-3779-4944-8c5b-fbb5ce44c223.png)
 ###### Training and Validation Loss vs Epoch
 <!-- Image here -->
+![Training and Validation loss](https://user-images.githubusercontent.com/98928740/200205031-f9d81a09-2a19-4009-9659-96467b574151.png)
+###### Training and Validation Percision vs Recall
+<!-- Image here -->
+![Percision and Recall](https://user-images.githubusercontent.com/98928740/200205196-ef73273e-bc40-4df3-87ca-b2cb506f9920.png)
+
+
 
 <!-- Images here -->
 From the few images displayed above and the other images within the folder you can deduce that the model does a decent job predicting. From the `training and validation loss at each epoch` image, at times, the validation loss is greater than the training loss. This may indicate that the model is underfitting. Underfitting occurs when the model is unable to accurately model the training data, and which in turn generates errors. The `training and validation IoU at each epoch` shows the intersection over Union - "a metric used to evaluate Deep Learning algorithms by estimating how well a predicted mask or bounding box matches the ground truth data". This is not bad with the ammount of epochs used and with more eppochs possible get a better prediction at the cost of the run time however. 
