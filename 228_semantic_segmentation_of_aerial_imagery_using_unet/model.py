@@ -41,7 +41,7 @@ from tensorflow.keras.metrics import MeanIoU
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 scaler = MinMaxScaler()
 
-root_directory = 'Semantic segmentation dataset/'
+root_directory = '../Semantic segmentation dataset/'
 
 patch_size = 256
 
