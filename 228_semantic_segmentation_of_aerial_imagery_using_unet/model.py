@@ -268,10 +268,10 @@ metrics=['accuracy', jacard_coef]
 
 import nni
 import tensorflow as tf
-# optimized_params = nni.get_next_parameter()
-# print(optimized_params)
-# params.update(optimized_params)
-# print(params)
+optimized_params = nni.get_next_parameter()
+print(optimized_params)
+params.update(optimized_params)
+print(params)
 
 def get_model():
     return multi_unet_model(dr=params['dropout_rate'], n_classes=n_classes, IMG_HEIGHT=IMG_HEIGHT, IMG_WIDTH=IMG_WIDTH, IMG_CHANNELS=IMG_CHANNELS)
