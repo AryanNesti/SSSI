@@ -4,6 +4,8 @@ Metis is a tuner for hyperparameter optimization which I implemented into the Un
 Metis actually tells you if you need to resample a particular hyper-parameter, unlike other methods just assume training data has no noisy data. Metis even has a search strategy that balances exploration, exploitation, and possibly resampling.
 
 <!-- Insert Image here -->
+<img width="1097" alt="Screen Shot 2022-11-20 at 12 53 04 AM" src="https://user-images.githubusercontent.com/98928740/202968897-4d7f420f-ff83-4f9e-9c42-830eaede632c.png">
+
 
 Through system benchmarking, Metis can collect data points that describe system inputs (for example, system workload and parameter values) and outputs (for example, performance metrics of interests) for training its model. When Metis does not change its prediction of the best performing configuration with additional data points, we say the model has converged. Maximizing the prediction accuracy and minimizing the model convergence time are two evaluation metrics for Metis.
 
