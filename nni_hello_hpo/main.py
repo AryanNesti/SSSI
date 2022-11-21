@@ -21,13 +21,14 @@ search_space = {
 experiment = Experiment('local')
 experiment.config.trial_command = 'python model.py'
 experiment.config.trial_code_directory = Path(__file__).parent
+print(Path(__file__).parent)
 experiment.config.search_space = search_space
 experiment.config.tuner.name = 'Random'
 experiment.config.max_trial_number = 10
 experiment.config.trial_concurrency = 2
 
 # Run it!
-experiment.run(port=8080, wait_completion=False)
+experiment.run(port=8000, wait_completion=False)
 
 print('Experiment is running. Press Ctrl-C to quit.')
 signal.pause()

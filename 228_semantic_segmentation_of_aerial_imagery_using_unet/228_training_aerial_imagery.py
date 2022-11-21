@@ -1,4 +1,5 @@
 # https://youtu.be/jvZm8REF2KY
+
 """
 Explanation of using RGB masks: https://youtu.be/sGAwx4GMe4E
 
@@ -257,18 +258,60 @@ metrics=['accuracy', jacard_coef]
 def get_model():
     return multi_unet_model(n_classes=n_classes, IMG_HEIGHT=IMG_HEIGHT, IMG_WIDTH=IMG_WIDTH, IMG_CHANNELS=IMG_CHANNELS)
 
+import nni
+import tensorflow as tf
+params = {
+    'dense_units': 128,
+    'activation_type': 'relu',
+    'dropout_rate': 0.2,
+    'learning_rate': 0.001,
+}
+optimized_params = nni.get_next_parameter()
+params.update(optimized_params)
+print(params)
+
+
+# search_space = {
+#     'dense_units': {'_type': 'choice', '_value': [64, 128, 256]},
+#     'activation_type': {'_type': 'choice', '_value': ['relu', 'tanh', 'swish', None]},
+#     'dropout_rate': {'_type': 'uniform', '_value': [0.5, 0.9]},
+#     'learning_rate': {'_type': 'loguniform', '_value': [0.0001, 0.1]},
+# }
+# from nni.experiment import Experiment
+# experiment = Experiment('local')
+# experiment.config.trial_command = 'python model.py'
+# experiment.config.trial_code_directory = '.'
+# experiment.config.search_space = search_space
+# experiment.config.tuner.name = 'metis'
+# experiment.config.tuner.class_args['optimize_mode'] = 'maximize'
+# experiment.config.max_trial_number = 10
+# experiment.config.trial_concurrency = 2
+
 model = get_model()
 model.compile(optimizer='adam', loss=total_loss, metrics=metrics)
-#model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=metrics)
+# #model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=metrics)
 model.summary()
-
+# model = tf.keras.models.Sequential([
+#     tf.keras.layers.Flatten(input_shape=(28, 28)),
+#     tf.keras.layers.Dense(params['dense_units'], activation=params['activation_type']),
+#     tf.keras.layers.Dropout(params['dropout_rate']),
+#     tf.keras.layers.Dense(10)
+# ])
+# adam = tf.keras.optimizers.Adam(learning_rate=params['learning_rate'])
+# loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+# model.compile(optimizer=adam, loss=loss_fn, metrics=['accuracy'])
+# callback = tf.keras.callbacks.LambdaCallback(
+#     on_epoch_end = lambda epoch, logs: nni.report_intermediate_result(logs['accuracy'])
+# )
 
 history1 = model.fit(X_train, y_train, 
                     batch_size = 16, 
                     verbose=1, 
-                    epochs=10, 
+                    epochs=2, 
                     validation_data=(X_test, y_test), 
                     shuffle=False)
+nni.report_final_result(history1.history['jacard_coef'])
+
 
 #Minmaxscaler
 #With weights...[0.1666, 0.1666, 0.1666, 0.1666, 0.1666, 0.1666]   in Dice loss
@@ -354,8 +397,7 @@ plt.show()
 ##################################
 from keras.models import load_model
 model = load_model("models/satellite_standard_unet_10epochs_7.hdf5",
-                   custom_objects={'dice_loss_plus_2focal_loss': total_loss,
-                                   'jacard_coef':jacard_coef})
+                   custom_objects={'jacard_coef':jacard_coef})
 
 #IOU
 y_pred=model.predict(X_test)

@@ -27,6 +27,7 @@ Total 1305 patches of size 256x256
 
 """
 
+
 import os
 import cv2
 import numpy as np
@@ -124,12 +125,12 @@ mask_dataset =  np.array(mask_dataset)
 import random
 import numpy as np
 image_number = random.randint(0, len(image_dataset))
-plt.figure(figsize=(12, 6))
-plt.subplot(121)
-plt.imshow(np.reshape(image_dataset[image_number], (patch_size, patch_size, 3)))
-plt.subplot(122)
-plt.imshow(np.reshape(mask_dataset[image_number], (patch_size, patch_size, 3)))
-plt.show()
+# plt.figure(figsize=(12, 6))
+# plt.subplot(121)
+# plt.imshow(np.reshape(image_dataset[image_number], (patch_size, patch_size, 3)))
+# plt.subplot(122)
+# plt.imshow(np.reshape(mask_dataset[image_number], (patch_size, patch_size, 3)))
+# plt.show()
 
 
 ###########################################################################
@@ -211,12 +212,12 @@ print("Unique labels in label dataset are: ", np.unique(labels))
 import random
 import numpy as np
 image_number = random.randint(0, len(image_dataset))
-plt.figure(figsize=(12, 6))
-plt.subplot(121)
-plt.imshow(image_dataset[image_number])
-plt.subplot(122)
-plt.imshow(labels[image_number][:,:,0])
-plt.show()
+# plt.figure(figsize=(12, 6))
+# plt.subplot(121)
+# plt.imshow(image_dataset[image_number])
+# plt.subplot(122)
+# plt.imshow(labels[image_number][:,:,0])
+# plt.show()
 
 
 ############################################################################
@@ -353,7 +354,7 @@ model.summary()
 
 ##################################
 from keras.models import load_model
-model = load_model("models/satellite_standard_unet_10epochs_7.hdf5", compile=False)
+model = load_model("models/satellite_standard_unet_10epochs.hdf5", compile=False)
 
 #IOU
 y_pred=model.predict(X_test)
