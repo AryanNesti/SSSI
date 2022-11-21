@@ -20,8 +20,14 @@ Metis may sound so strong and powerful of a method however, there are limitation
 For our experiment we ran: 
 ```
 search_space = {
+    'weight1': {'_type': 'uniform', '_value': [0, 0.2]},
+    'weight2': {'_type': 'uniform', '_value': [0, 0.2]},
+    'weight3': {'_type': 'uniform', '_value': [0, 0.2]},
+    'weight4': {'_type': 'uniform', '_value': [0, 0.2]},
+    'weight5': {'_type': 'uniform', '_value': [0, 0.2]},
+    'weight6': {'_type': 'uniform', '_value': [0, 0.2]},
     'dropout_rate': {'_type': 'uniform', '_value': [0, 1]},
-    'learning_rate': {'_type': 'uniform', '_value': [0.01, 0.1]},
+    'learning_rate': {'_type': 'uniform', '_value': [0, 0.1]},
 }
 experiment = Experiment('local')
 experiment.config.trial_command = 'python model.py'
@@ -31,22 +37,40 @@ experiment.config.tuner.name = 'Metis'
 experiment.config.tuner.class_args = {
     'optimize_mode': 'maximize'
 }
-experiment.config.max_trial_number = 5
-experiment.config.trial_concurrency = 1
+experiment.config.max_trial_number = 10
+experiment.config.trial_concurrency = 2
 ```
-The search space are the Hyperparameters we will be comparing. Sadly due to the lack in power of my laptop I was forced to run only 5 trials which had a runtime of 40 minutes along with my change of epochs to 2 which can be seen below.
+The search space are the Hyperparameters we will be comparing. Sadly due to the lack in power of my laptop I was forced to run only 10 trials which had a runtime of 1 hour and 30 minutes along with my change of epochs to 2 which can be seen below.
 
 This is how we create and ran the model:
 ```
 params = {
-    'dropout_rate': 0.2,
-    'learning_rate': 0.01,
+    'weight1': 0.1666,
+    'weight2': 0.1666,
+    'weight3': 0.1666,
+    'weight4': 0.1666,
+    'weight5': 0.1666,
+    'weight6': 0.1666,
+    'dropout_rate': 0.47,
+    'learning_rate': 0.007,
 }
 
+weights = [params['weight1'],params['weight2'],params['weight3'],params['weight4'],params['weight5'],params['weight6']]
+dice_loss = sm.losses.DiceLoss(class_weights=weights) 
+focal_loss = sm.losses.CategoricalFocalLoss()
+total_loss = dice_loss + (1 * focal_loss)  #
+
+IMG_HEIGHT = X_train.shape[1]
+IMG_WIDTH  = X_train.shape[2]
+IMG_CHANNELS = X_train.shape[3]
+
+from simple_multi_unet_model import multi_unet_model, jacard_coef  
+
+metrics=['accuracy', jacard_coef]
+import nni
+import tensorflow as tf
 optimized_params = nni.get_next_parameter()
-print(optimized_params)
 params.update(optimized_params)
-print(params)
 
 def get_model():
     return multi_unet_model(dr=params['dropout_rate'], n_classes=n_classes, IMG_HEIGHT=IMG_HEIGHT, IMG_WIDTH=IMG_WIDTH, IMG_CHANNELS=IMG_CHANNELS)
@@ -62,7 +86,7 @@ model.summary()
 history1 = model.fit(X_train, y_train, 
                     batch_size = 8, 
                     verbose=1, 
-                    epochs=2, 
+                    epochs=10, 
                     callbacks=[callback],
                     validation_data=(X_test, y_test), 
                     shuffle=False)
