@@ -397,9 +397,7 @@ print("Mean IoU =", IOU_keras.result().numpy())
 
 #######################################################################
 #Predict on a few images
-
-# import random
-for i in range(10):
+for i in range(20):
     test_img_number = random.randint(0, len(X_test))
     test_img = X_test[test_img_number]
     ground_truth=y_test_argmax[test_img_number]
@@ -420,5 +418,47 @@ for i in range(10):
     plt.title('Prediction on test image')
     plt.imshow(predicted_img)
     plt.show()
+# best_10 = []
+# # import random
+# for i in range(len(X_test)):
+#     test_img = X_test[i]
+#     test_img_input=np.expand_dims(test_img, 0)
+#     prediction = (model.predict(test_img_input))
+#     predicted_img=np.argmax(prediction, axis=3)[0,:,:]
+#     accuracy = jacard_coef(y_test[i], prediction[0])
+
+#     if(len(best_10) < 110):
+#         best_10.append([i, accuracy])
+#     else:
+#         worst = best_10[0][1]
+#         worst_index = 0
+#         for j in range(1, len(best_10)):
+#             if (best_10[j][1]< worst):
+#                 worst = best_10[j][1]
+#                 worst_index = j
+#             if(accuracy > worst):
+#                 best_10[worst_index] = [i, accuracy]
+                
+# best_10 = sorted(best_10, key=lambda x: x[1])[0:20][::-1]
+
+# for best in best_10:
+#     test_img = X_test[best[0]]
+#     ground_truth=y_test_argmax[best[0]]
+#     #test_img_norm=test_img[:,:,0][:,:,None]
+#     test_img_input=np.expand_dims(test_img, 0)
+#     prediction = (model.predict(test_img_input))
+#     predicted_img=np.argmax(prediction, axis=3)[0,:,:]
+
+#     plt.figure(figsize=(12, 8))
+#     plt.subplot(231)
+#     plt.title('Testing Image')
+#     plt.imshow(test_img)
+#     plt.subplot(232)
+#     plt.title('Testing Label')
+#     plt.imshow(ground_truth)
+#     plt.subplot(233)
+#     plt.title('Prediction on test image')
+#     plt.imshow(predicted_img)
+#     plt.show()
 
 #####################################################################
