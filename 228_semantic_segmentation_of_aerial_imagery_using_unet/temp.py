@@ -382,12 +382,12 @@ print(p.result().numpy())
 r = Recall(thresholds=[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
 r.update_state(y_test, y_pred)
 print(r.result().numpy())
-plt.plot(np.flip(r.result().numpy()), np.flip(p.result().numpy()), '--o')
+# plt.plot(np.flip(r.result().numpy()), np.flip(p.result().numpy()), '--o')
 
-plt.title("Percision and Recall Over Epochs/Iterations")
-plt.xlabel('Recall')
-plt.ylabel('Percision')
-plt.show()
+# plt.title("Percision and Recall Over Epochs/Iterations")
+# plt.xlabel('Recall')
+# plt.ylabel('Percision')
+# plt.show()
 
 
 n_classes = 6
@@ -399,26 +399,26 @@ print("Mean IoU =", IOU_keras.result().numpy())
 #Predict on a few images
 
 # import random
-# for i in range(10):
-#     test_img_number = random.randint(0, len(X_test))
-#     test_img = X_test[test_img_number]
-#     ground_truth=y_test_argmax[test_img_number]
-#     #test_img_norm=test_img[:,:,0][:,:,None]
-#     test_img_input=np.expand_dims(test_img, 0)
-#     prediction = (model.predict(test_img_input))
-#     predicted_img=np.argmax(prediction, axis=3)[0,:,:]
+for i in range(10):
+    test_img_number = random.randint(0, len(X_test))
+    test_img = X_test[test_img_number]
+    ground_truth=y_test_argmax[test_img_number]
+    #test_img_norm=test_img[:,:,0][:,:,None]
+    test_img_input=np.expand_dims(test_img, 0)
+    prediction = (model.predict(test_img_input))
+    predicted_img=np.argmax(prediction, axis=3)[0,:,:]
 
 
-#     plt.figure(figsize=(12, 8))
-#     plt.subplot(231)
-#     plt.title('Testing Image')
-#     plt.imshow(test_img)
-#     plt.subplot(232)
-#     plt.title('Testing Label')
-#     plt.imshow(ground_truth)
-#     plt.subplot(233)
-#     plt.title('Prediction on test image')
-#     plt.imshow(predicted_img)
-#     plt.show()
+    plt.figure(figsize=(12, 8))
+    plt.subplot(231)
+    plt.title('Testing Image')
+    plt.imshow(test_img)
+    plt.subplot(232)
+    plt.title('Testing Label')
+    plt.imshow(ground_truth)
+    plt.subplot(233)
+    plt.title('Prediction on test image')
+    plt.imshow(predicted_img)
+    plt.show()
 
 #####################################################################
