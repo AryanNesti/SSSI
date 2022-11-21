@@ -130,13 +130,19 @@ We can conclude from this that the weights have little to no effect, however the
 
 ###### Training and Validation IoU vs Epoch
 <!-- Image here -->
+![IoU 10 epo](https://user-images.githubusercontent.com/98928740/202968517-6257dc49-c9ef-48ae-ab5b-0631f27a7b38.png)
 
 ###### Training and Validation Loss vs Epoch
 <!-- Image here -->
+![loss 10 epo](https://user-images.githubusercontent.com/98928740/202968528-4548af67-9cd9-4236-a54d-1f8f1bbcff74.png)
 
 ###### Training and Validation Percision vs Recall
 <!-- Image here -->
+![Percision_recall 10epo](https://user-images.githubusercontent.com/98928740/202968540-d3741ff5-75f1-4457-bc58-d3531232f60d.png)
 
+
+![Figure_9](https://user-images.githubusercontent.com/98928740/202968668-a611abfc-257c-4f6f-b8bb-39b798a039b4.png)
+![Figure_7](https://user-images.githubusercontent.com/98928740/202968713-27df1861-c2dc-4bd4-b81d-d668631c08ae.png)
 
 <!-- Insert Image here -->
 From the few images displayed above and the other images within the folder you can deduce that the model does a decent job predicting. From the `training and validation loss at each epoch` image, at the end, the validation loss is greater than the training loss. This may indicate that the model is underfitting. Underfitting occurs when the model is unable to accurately model the training data, and which in turn generates errors. However, unlike the previous milestone we have majority of the validation loss lower than the training loss. The `training and validation IoU at each epoch` hor this expermient is about 10 points lower than the previous milestone where we have a mean of 44% IoU while the previous milestone had a mean of 48% IoU. Precision can be seen as a measure of quality, and recall as a measure of quantity. Higher precision means that an algorithm returns more relevant results than irrelevant ones, and high recall means that an algorithm returns most of the relevant results. The `Training and Validation Percision vs Recall` shows that the model is pretty reasonable with such a smooth curve and it is much smoother than the previous milestone. Instead of at 0.6 recall the percision making it close ot perfect this time it becomes perfect between 0.3 and 0.4 recall, but like last time it start declining making it less reliable going downward. Please view milestone 2 branch to compare the graphs shown above. More of these images can be viewed from the `Images for milestone-3` folder.
