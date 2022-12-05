@@ -61,3 +61,12 @@ experiment.config.tuner.class_args = {
 experiment.config.max_trial_number = 10
 experiment.config.trial_concurrency = 2
 ```
+## Milestone 4
+We implemented LevelPrunning:
+```
+from nni.algorithms.compression.tensorflow.pruning import LevelPruner
+config_list = [{ 'sparsity': 0.8, 'op_types': ['default'] }]
+pruner = LevelPruner(model, config_list)
+pruner.compress()
+```
+This lead to getting us higher accuracy without having to run more epochs. The accuracy high was 80% while the average accuracy was 77%.
