@@ -2,10 +2,15 @@
 # Model Compression
 Deep neural networks have achieved great success in many tasks like computer vision, nature launguage processing, speech processing. However, typical neural networks are both computationally expensive and energy-intensive, which can be difficult to be deployed on devices with low computation resources. Therefore, a natural thought is to perform model compression to reduce model size and accelerate model training/inference without losing performance significantly. Model compression techniques can be divided into two categories: pruning and quantization. The pruning methods explore the redundancy in the model weights and try to remove/prune the redundant and uncritical weights. Quantization refers to compress models by reducing the number of bits required to represent weights or activations. We further elaborate on the two methods, pruning and quantization, in the following chapters. Besides, the figure below visualizes the difference between these two methods.
 <!-- Insert Image here -->
+<img width="640" alt="Screen Shot 2022-12-04 at 5 29 27 PM" src="https://user-images.githubusercontent.com/98928740/205525214-8abbd96c-6ec1-4547-8610-4bbeb32ba7eb.png">
+
+<img width="914" alt="Screen Shot 2022-12-04 at 5 30 33 PM" src="https://user-images.githubusercontent.com/98928740/205525286-689f7b96-8d1e-4ef2-8c7c-d04f9337dce4.png">
 
 # Knowledge Distillation (KD)
 Knowledge Distillation (KD) is proposed in Distilling the Knowledge in a Neural Network, the compressed model is trained to mimic a pre-trained, larger model. This training setting is also referred to as “teacher-student”, where the large model is the teacher and the small model is the student. KD is often used to fine-tune the pruned model.
 <!-- Insert Image here -->
+<img width="914" alt="Screen Shot 2022-12-04 at 5 31 26 PM" src="https://user-images.githubusercontent.com/98928740/205525257-faaab78b-ad59-45aa-9a29-3e8d32f82704.png">
+
 
 Neural networks typically produce class probabilities by using a “softmax” output layer that converts the logit, z$_i$, computed for each class into a probability, $q_i$, by comparing $z_i$ with the other logits.
 $$q_i = \frac{exp(z_i/T)}{Σ_jexp(z_j/T)}$$
@@ -95,13 +100,20 @@ This lead to getting us higher accuracy without having to run more epochs. The a
 
 ###### Training and Validation IoU vs Epoch
 <!-- Image here -->
+![IoU](https://user-images.githubusercontent.com/98928740/205525065-000ac7b6-0bf9-4a08-a1b3-a3b467ba2c3c.png)
+
 
 ###### Training and Validation Loss vs Epoch
 <!-- Image here -->
+![Loss](https://user-images.githubusercontent.com/98928740/205525076-7fb862c7-89b6-45fb-9f64-841f42646206.png)
+
 
 ###### Training and Validation Percision vs Recall
 <!-- Image here -->
+![Percision Recall](https://user-images.githubusercontent.com/98928740/205525090-98fcbd50-6cc3-4ffc-a771-b3b44d6c2585.png)
 
 
+![Figure_11](https://user-images.githubusercontent.com/98928740/205525108-a4366fda-d262-45c0-8c3b-bf643e0afc57.png)
+![Figure_9](https://user-images.githubusercontent.com/98928740/205525135-0d960d10-77ce-4b1f-8384-a76b515a2fd8.png)
 <!-- Insert Image here -->
 From the few images displayed above and the other images within the folder you can deduce that the model does a decent job predicting. From the `training and validation loss at each epoch` image, at the end, the validation loss is greater than the training loss. This may indicate that the model is underfitting. Underfitting occurs when the model is unable to accurately model the training data, and which in turn generates errors. However, unlike the previous milestone we have majority of the validation loss lower than the training loss. The `training and validation IoU at each epoch` for this expermient is about 4 points lower than the previous milestone where we have a mean of 40% IoU while the previous milestone had a mean of 48% IoU. Precision can be seen as a measure of quality, and recall as a measure of quantity. Higher precision means that an algorithm returns more relevant results than irrelevant ones, and high recall means that an algorithm returns most of the relevant results. The `Training and Validation Percision vs Recall` shows that the model is pretty reasonable with such a smooth curve and it is much smoother than the previous milestone. It still becomes perfect between 0.3 and 0.4 recall, but like last time it start declining making it less reliable going downward. Please view milestone 3 branch to compare the graphs shown above. More of these images can be viewed from the `Images for milestone-4` folder.
