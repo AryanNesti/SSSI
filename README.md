@@ -62,6 +62,24 @@ experiment.config.max_trial_number = 10
 experiment.config.trial_concurrency = 2
 ```
 ## Milestone 4
+The code for Knowledge Distillation used is:
+```
+for batch_idx, (data, target) in enumerate(train_loader):
+   data, target = data.to(device), target.to(device)
+   optimizer.zero_grad()
+   y_s = model_s(data)
+   y_t = model_t(data)
+   loss_cri = F.cross_entropy(y_s, target)
+
+   # kd loss
+   p_s = F.log_softmax(y_s/kd_T, dim=1)
+   p_t = F.softmax(y_t/kd_T, dim=1)
+   loss_kd = F.kl_div(p_s, p_t, size_average=False) * (self.T**2) / y_s.shape[0]
+
+   # total loss
+   loss = loss_cir + loss_kd
+   loss.backward()
+```
 We implemented LevelPrunning:
 ```
 from nni.algorithms.compression.tensorflow.pruning import LevelPruner
