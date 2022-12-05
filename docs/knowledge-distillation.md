@@ -1,4 +1,3 @@
-# 
 # Model Compression
 Deep neural networks have achieved great success in many tasks like computer vision, nature launguage processing, speech processing. However, typical neural networks are both computationally expensive and energy-intensive, which can be difficult to be deployed on devices with low computation resources. Therefore, a natural thought is to perform model compression to reduce model size and accelerate model training/inference without losing performance significantly. Model compression techniques can be divided into two categories: pruning and quantization. The pruning methods explore the redundancy in the model weights and try to remove/prune the redundant and uncritical weights. Quantization refers to compress models by reducing the number of bits required to represent weights or activations. We further elaborate on the two methods, pruning and quantization, in the following chapters. Besides, the figure below visualizes the difference between these two methods.
 <!-- Insert Image here -->
@@ -37,9 +36,9 @@ for batch_idx, (data, target) in enumerate(train_loader):
    loss.backward()
 ```
 # LevelPruning
-Unfortunatly we were unable to actually use Knowledge Distillation due it being a pytorch method while we are using a tensorflow class and we cannot switch to pytorch due to the capability of my device. My computer cannot import pytorch and therefore cannot use the pytorch method. This is where prunning comes in. Earlier we spoke about model compression and one of the best ways to compress a model is to prune the models. Here we implemented Levelpruning which is used for pytorch but also has a tensorflow implementation by NNI.
+Unfortunately due to Knowledge Distillation being a pytorch method we were forced to edit to come up with alternatives since we are using a tensorflow class and we cannot switch to pytorch due to the capability of my device. My computer cannot import pytorch and therefore cannot use the pytorch method. This is where prunning comes in. Earlier we spoke about model compression and one of the best ways to compress a model is to prune the models. Here we implemented Levelpruning which is used for pytorch but also has a tensorflow implementation by NNI.
 
-Therefore `{ 'sparsity': 0.8, 'op_types': ['default'] }`means that all layers with specified op_types will be compressed with the same 0.8 sparsity. When `pruner.compress()` called, the model is compressed with masks and after that you can normally fine tune this model and pruned weights won’t be updated which have been masked.
+This is one basic one-shot pruner: you can set a target sparsity level (expressed as a fraction, 0.6 means we will prune 60%). We first sort the weights in the specified layer by their absolute values. And then mask to zero the smallest magnitude weights until the desired sparsity level is reached. Therefore `{ 'sparsity': 0.8, 'op_types': ['default'] }`means that all layers with specified op_types will be compressed with the same 0.8 sparsity. When `pruner.compress()` called, the model is compressed with masks and after that you can normally fine tune this model and pruned weights won’t be updated which have been masked.
 ```
 params = {
     'weight1': 0.1666,
