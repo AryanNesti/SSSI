@@ -37,3 +37,27 @@ For this project we are using Unet which is a convolutional neural network meani
 ![Figure_1](https://user-images.githubusercontent.com/98928740/200205279-83f298a4-5592-41a7-91c8-15774bfcbc52.png)
 ![Figure_2](https://user-images.githubusercontent.com/98928740/200205260-f1abc72a-ac6a-4091-a582-97a38e67fd38.png)
 
+## Milestone 3
+To further perfect our model we conducted Hyperparameter Optimization using NNI method Metis. We will work with hyperparameters like weight, leanring rate and droprate. For teh results please visit the `docs` folder down to ` hyperparameter-optimization.md` file.
+```
+search_space = {
+    'weight1': {'_type': 'uniform', '_value': [0, 0.2]},
+    'weight2': {'_type': 'uniform', '_value': [0, 0.2]},
+    'weight3': {'_type': 'uniform', '_value': [0, 0.2]},
+    'weight4': {'_type': 'uniform', '_value': [0, 0.2]},
+    'weight5': {'_type': 'uniform', '_value': [0, 0.2]},
+    'weight6': {'_type': 'uniform', '_value': [0, 0.2]},
+    'dropout_rate': {'_type': 'uniform', '_value': [0, 1]},
+    'learning_rate': {'_type': 'uniform', '_value': [0, 0.1]},
+}
+experiment = Experiment('local')
+experiment.config.trial_command = 'python model.py'
+experiment.config.trial_code_directory = Path(__file__).parent
+experiment.config.search_space = search_space
+experiment.config.tuner.name = 'Metis'
+experiment.config.tuner.class_args = {
+    'optimize_mode': 'maximize'
+}
+experiment.config.max_trial_number = 10
+experiment.config.trial_concurrency = 2
+```
