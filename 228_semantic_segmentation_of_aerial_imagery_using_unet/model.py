@@ -287,6 +287,11 @@ callback = tf.keras.callbacks.LambdaCallback(
 model.compile(optimizer=adam, loss=total_loss, metrics=metrics)
 model.summary()
 
+from nni.algorithms.compression.tensorflow.pruning import LevelPruner
+config_list = [{ 'sparsity': 0.8, 'op_types': ['default'] }]
+pruner = LevelPruner(model, config_list)
+pruner.compress()
+
 history1 = model.fit(X_train, y_train, 
                     batch_size = 8, 
                     verbose=1, 
@@ -313,7 +318,7 @@ nni.report_final_result(accuracy)
 ##Standardscaler 
 #Using categorical crossentropy as loss: 0.677
 
-model.save('models/satellite_standard_unet_10epochs.hdf5')
+# model.save('../models/satellite_standard_unet_10epochs.hdf5')
 ############################################################
 #TRY ANOTHE MODEL - WITH PRETRINED WEIGHTS
 #Resnet backbone
@@ -382,46 +387,108 @@ plt.show()
 
 
 # ##################################
-# from keras.models import load_model
-# model = load_model("../models/satellite_standard_unet_10epochs_7.hdf5",
-#                    custom_objects={'jacard_coef':jacard_coef})
+#IOU
+y_pred=model.predict(X_test)
+y_pred_argmax=np.argmax(y_pred, axis=3)
+y_test_argmax=np.argmax(y_test, axis=3)
 
-# #IOU
-# y_pred=model.predict(X_test)
-# y_pred_argmax=np.argmax(y_pred, axis=3)
-# y_test_argmax=np.argmax(y_test, axis=3)
+# from sklearn.metrics import precision_score
+# from sklearn.metrics import recall_score
+# print(y_pred)
 
-
-# #Using built in keras function for IoU
-# from keras.metrics import MeanIoU
-# n_classes = 6
-# IOU_keras = MeanIoU(num_classes=n_classes)  
-# IOU_keras.update_state(y_test_argmax, y_pred_argmax)
-# print("Mean IoU =", IOU_keras.result().numpy())
-
-# #######################################################################
-# #Predict on a few images
-
-# import random
-# test_img_number = random.randint(0, len(X_test))
-# test_img = X_test[test_img_number]
-# ground_truth=y_test_argmax[test_img_number]
-# #test_img_norm=test_img[:,:,0][:,:,None]
-# test_img_input=np.expand_dims(test_img, 0)
-# prediction = (model.predict(test_img_input))
-# predicted_img=np.argmax(prediction, axis=3)[0,:,:]
+# precision = precision_score(y_pred, y_test)
+# print('Precision: %f' % precision)
+# # recall: tp / (tp + fn)
+# recall = recall_score(y_test, y_pred)
+# print('Recall: %f' % recall)
 
 
-# # plt.figure(figsize=(12, 8))
-# # plt.subplot(231)
-# # plt.title('Testing Image')
-# # plt.imshow(test_img)
-# # plt.subplot(232)
-# # plt.title('Testing Label')
-# # plt.imshow(ground_truth)
-# # plt.subplot(233)
-# # plt.title('Prediction on test image')
-# # plt.imshow(predicted_img)
-# # plt.show()
+#Using built in keras function for IoU
+from keras.metrics import MeanIoU
+from keras.metrics import Recall
+from keras.metrics import Precision
+p = Precision(thresholds=[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
+p.update_state(y_test, y_pred)
+print(p.result().numpy())
+r = Recall(thresholds=[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
+r.update_state(y_test, y_pred)
+print(r.result().numpy())
+plt.plot(np.flip(r.result().numpy()), np.flip(p.result().numpy()), '--o')
+plt.title("Percision and Recall Over Epochs/Iterations")
+plt.xlabel('Recall')
+plt.ylabel('Percision')
+plt.show()
 
-# #####################################################################
+
+n_classes = 6
+IOU_keras = MeanIoU(num_classes=n_classes)  
+IOU_keras.update_state(y_test_argmax, y_pred_argmax)
+print("Mean IoU =", IOU_keras.result().numpy())
+
+#######################################################################
+#Predict on a few images
+for i in range(30):
+    test_img_number = random.randint(0, len(X_test))
+    test_img = X_test[test_img_number]
+    ground_truth=y_test_argmax[test_img_number]
+    #test_img_norm=test_img[:,:,0][:,:,None]
+    test_img_input=np.expand_dims(test_img, 0)
+    prediction = (model.predict(test_img_input))
+    predicted_img=np.argmax(prediction, axis=3)[0,:,:]
+
+
+    plt.figure(figsize=(12, 8))
+    plt.subplot(231)
+    plt.title('Testing Image')
+    plt.imshow(test_img)
+    plt.subplot(232)
+    plt.title('Testing Label')
+    plt.imshow(ground_truth)
+    plt.subplot(233)
+    plt.title('Prediction on test image')
+    plt.imshow(predicted_img)
+    plt.show()
+# best_10 = []
+# # import random
+# for i in range(len(X_test)):
+#     test_img = X_test[i]
+#     test_img_input=np.expand_dims(test_img, 0)
+#     prediction = (model.predict(test_img_input))
+#     predicted_img=np.argmax(prediction, axis=3)[0,:,:]
+#     accuracy = jacard_coef(y_test[i], prediction[0])
+
+#     if(len(best_10) < 110):
+#         best_10.append([i, accuracy])
+#     else:
+#         worst = best_10[0][1]
+#         worst_index = 0
+#         for j in range(1, len(best_10)):
+#             if (best_10[j][1]< worst):
+#                 worst = best_10[j][1]
+#                 worst_index = j
+#             if(accuracy > worst):
+#                 best_10[worst_index] = [i, accuracy]
+                
+# best_10 = sorted(best_10, key=lambda x: x[1])[0:20][::-1]
+
+# for best in best_10:
+#     test_img = X_test[best[0]]
+#     ground_truth=y_test_argmax[best[0]]
+#     #test_img_norm=test_img[:,:,0][:,:,None]
+#     test_img_input=np.expand_dims(test_img, 0)
+#     prediction = (model.predict(test_img_input))
+#     predicted_img=np.argmax(prediction, axis=3)[0,:,:]
+
+#     plt.figure(figsize=(12, 8))
+#     plt.subplot(231)
+#     plt.title('Testing Image')
+#     plt.imshow(test_img)
+#     plt.subplot(232)
+#     plt.title('Testing Label')
+#     plt.imshow(ground_truth)
+#     plt.subplot(233)
+#     plt.title('Prediction on test image')
+#     plt.imshow(predicted_img)
+#     plt.show()
+
+#####################################################################
